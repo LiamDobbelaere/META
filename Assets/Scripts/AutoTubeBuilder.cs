@@ -26,33 +26,74 @@ public class AutoTubeBuilder : MonoBehaviour
 
     void Continue()
     {
-        //if (count > 0) 
-        PickPermutation();
-
+        if (gameObject.name.Contains("SplitTubePermutation"))
+        {
+            InstantiateAllPermutations();
+        }
+        else
+        {
+            PickPermutation();
+        }
+        
         DeletePermutations();
         Destroy(this);
+    }
+
+    void InstantiateAllPermutations()
+    {
+        var perms = transform.Find("Permutations");
+        var permutation = perms.GetChild(0);
+
+        Transform permutationTarget = permutation.GetComponent<Permutation>().target;
+
+        var aInst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
+        var instRenderer = aInst.GetComponent<Renderer>();
+        var doc = aInst.gameObject.AddComponent<DestroyOnContact>();
+        doc.target = this.gameObject;
+
+        instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
+        instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
+
+        permutation = perms.GetChild(1);
+
+        permutationTarget = permutation.GetComponent<Permutation>().target;
+
+        var bInst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
+        instRenderer = bInst.GetComponent<Renderer>();
+        doc = bInst.gameObject.AddComponent<DestroyOnContact>();
+        doc.target = this.gameObject;
+        
+        instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
+        instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
+
+        doc = aInst.gameObject.AddComponent<DestroyOnContact>();
+        doc.target = bInst.gameObject;
+
+        doc = bInst.gameObject.AddComponent<DestroyOnContact>();
+        doc.target = aInst.gameObject;
+
+        globalState.Advance();
     }
 
     void PickPermutation()
     {
         var permutations = transform.Find("Permutations");
-        var chosenPermutation = Random.Range(0, permutations.childCount);
+        //var chosenPermutation = Random.Range(0, permutations.childCount);
 
         //Apply the permutation here
-        var permutation = permutations.GetChild(chosenPermutation);
+        var permutation = globalState.getNextPermutation(permutations);
         
         Transform permutationTarget = permutation.GetComponent<Permutation>().target;
 
         var inst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
         var instRenderer = inst.GetComponent<Renderer>();
+        var doc = inst.gameObject.AddComponent<DestroyOnContact>();
+        doc.target = this.gameObject;
 
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
 
         globalState.Advance();
-
-        var doc = inst.gameObject.AddComponent<DestroyOnContact>();
-        doc.target = this.gameObject;
     }
 
     void DeletePermutations()

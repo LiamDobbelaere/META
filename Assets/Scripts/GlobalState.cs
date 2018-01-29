@@ -8,7 +8,9 @@ public class GlobalState : MonoBehaviour {
 
     private int counter;
     private int currentPaletteColor;
-    private int bendCounter;
+
+    private int bendCount;
+    private int maxBendCount = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -30,11 +32,6 @@ public class GlobalState : MonoBehaviour {
         return paletteColorsAccent[currentPaletteColor];
     }
 
-    public int getBendCounter()
-    {
-        return bendCounter;
-    }
-
     public void Advance()
     {
         if (++counter > 5)
@@ -46,10 +43,34 @@ public class GlobalState : MonoBehaviour {
 
             counter = 0;
         }
+    }
 
-        if (++bendCounter > 3)
+    public Transform getNextPermutation(Transform permutations)
+    {
+        bool bendsOnly = false;
+
+        if (++bendCount > maxBendCount)
         {
-            bendCounter = 0;
+            bendsOnly = true;
+            bendCount = 0;
         }
+
+        List<Transform> options = new List<Transform>();
+
+        foreach (Transform t in permutations) 
+        {
+            if (bendsOnly)
+            {
+                if (t.name.Equals("BendTube"))
+                    options.Add(t);
+            }
+            else
+            {
+                if (!t.name.Equals("BendTube"))
+                    options.Add(t);
+            }
+        }
+
+        return options[Random.Range(0, options.Count)];
     }
 }

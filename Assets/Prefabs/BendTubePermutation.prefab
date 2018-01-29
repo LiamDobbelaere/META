@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64256265418927672}
   - component: {fileID: 114780108763750284}
   m_Layer: 0
-  m_Name: BendTube (3)
+  m_Name: BendTube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 64718411732589898}
   - component: {fileID: 114467658950852222}
   m_Layer: 0
-  m_Name: BendTube (1)
+  m_Name: BendTube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 64546976760817946}
   - component: {fileID: 114913663013332548}
   m_Layer: 0
-  m_Name: BendTube (2)
+  m_Name: BendTube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,7 +220,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508771111732156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.510925, y: 8.894232, z: 4.1511493}
+  m_LocalPosition: {x: 14.79, y: -1.3325725, z: -1.85}
   m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
   m_Children:
   - {fileID: 4357000772741334}
