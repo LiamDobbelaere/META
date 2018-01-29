@@ -52,6 +52,7 @@ public class AutoTubeBuilder : MonoBehaviour
         doc.target = this.gameObject;
 
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
+        instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
 
         permutation = perms.GetChild(1);
@@ -64,6 +65,7 @@ public class AutoTubeBuilder : MonoBehaviour
         doc.target = this.gameObject;
         
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
+        instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
 
         doc = aInst.gameObject.AddComponent<DestroyOnContact>();
@@ -71,8 +73,6 @@ public class AutoTubeBuilder : MonoBehaviour
 
         doc = bInst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = aInst.gameObject;
-
-        globalState.Advance();
     }
 
     void PickPermutation()
@@ -91,9 +91,8 @@ public class AutoTubeBuilder : MonoBehaviour
         doc.target = this.gameObject;
 
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
+        instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
-
-        globalState.Advance();
     }
 
     void DeletePermutations()

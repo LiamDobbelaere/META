@@ -14,31 +14,52 @@ public class ShipController : MonoBehaviour {
 
     private Transform mesh;
     private Rigidbody rigidbody;
+    private BoxCollider boxCollider;
+
+    private float aliveTimer;
 
     private bool isDead;
+
+    private float zFormation;
 
 	// Use this for initialization
 	void Start () {
         mesh = transform.Find("MeshRepresentation");
         rigidbody = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
+        aliveTimer = 6f;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        aliveTimer = 6f;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (!isDead)
         {
-            rigidbody.useGravity = true;
-            rigidbody.constraints = RigidbodyConstraints.None;
-            transform.Find("Main Camera").parent = null;
-            transform.gameObject.AddComponent<MeshCollider>();
-            transform.GetComponent<MeshCollider>().convex = true;
-            isDead = true;
+            Die();
         }
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    void Die()
+    {
+        rigidbody.useGravity = true;
+        rigidbody.constraints = RigidbodyConstraints.None;
+        transform.Find("Main Camera").parent = null;
+        transform.gameObject.AddComponent<MeshCollider>();
+        transform.GetComponent<MeshCollider>().convex = true;
+        isDead = true;
+    }
+
 	// Update is called once per frame
 	void Update () {
+        aliveTimer -= Time.deltaTime;
+
+        if (aliveTimer < 0f) Die();
+
         if (!isDead)
         {
             smoothHorizontal = Mathf.Lerp(smoothHorizontal, Input.GetAxis("Horizontal"), 0.2f);
@@ -64,7 +85,19 @@ public class ShipController : MonoBehaviour {
 
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + smoothHorizontal * banking, transform.eulerAngles.z);
 
-            mesh.localEulerAngles = new Vector3(-smoothVertical * 25f, 0f, -smoothHorizontal * 25f);
+            if (Input.GetButton("Formation"))
+            {
+                zFormation = Mathf.Lerp(zFormation, 90f, 0.2f);
+                boxCollider.size = new Vector3(0.32f, boxCollider.size.y, boxCollider.size.z);
+            }
+            else
+            {
+                zFormation = Mathf.Lerp(zFormation, 0f, 0.2f);
+                boxCollider.size = new Vector3(1f, boxCollider.size.x, boxCollider.size.z);
+            }
+
+            mesh.localEulerAngles = new Vector3(-smoothVertical * 25f, 0f, -smoothHorizontal * 25f + zFormation);
+            
         }
     }
 }
