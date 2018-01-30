@@ -63,7 +63,7 @@ public class AutoTubeBuilder : MonoBehaviour
         instRenderer = bInst.GetComponent<Renderer>();
         doc = bInst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = this.gameObject;
-        
+
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
         instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
@@ -87,8 +87,10 @@ public class AutoTubeBuilder : MonoBehaviour
 
         var inst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
         var instRenderer = inst.GetComponent<Renderer>();
+        
         var doc = inst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = this.gameObject;
+
 
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
         instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
@@ -97,6 +99,12 @@ public class AutoTubeBuilder : MonoBehaviour
         var obstacles = inst.Find("Obstacles");
 
         if (obstacles != null) {
+            //Deactivate all obstacles
+            foreach (Transform obst in obstacles)
+            {
+                obst.gameObject.SetActive(false);
+            }
+
             //Activate one obstacle
             int obstacleCount = obstacles.childCount;
             int chosenObstacle = Random.Range(0, obstacleCount);
@@ -110,9 +118,9 @@ public class AutoTubeBuilder : MonoBehaviour
     {
         var permutations = transform.Find("Permutations");
 
-        for (int i = 0; i < permutations.childCount; i++)
+        foreach (Transform permutation in permutations)
         {
-            Destroy(permutations.GetChild(i).gameObject);
+            Destroy(permutation.gameObject);
         }
     }
 }
