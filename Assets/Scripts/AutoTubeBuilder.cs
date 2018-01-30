@@ -93,6 +93,17 @@ public class AutoTubeBuilder : MonoBehaviour
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
         instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
+
+        var obstacles = inst.Find("Obstacles");
+
+        if (obstacles != null) {
+            //Activate one obstacle
+            int obstacleCount = obstacles.childCount;
+            int chosenObstacle = Random.Range(0, obstacleCount);
+
+            obstacles.GetChild(chosenObstacle).gameObject.SetActive(true);
+        }
+
     }
 
     void DeletePermutations()
