@@ -16,7 +16,9 @@ public class DestroyOnContact : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             triggered = true;
+        }
     }
 
 	// Update is called once per frame
