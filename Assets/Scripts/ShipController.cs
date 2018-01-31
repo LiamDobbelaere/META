@@ -39,7 +39,7 @@ public class ShipController : MonoBehaviour {
     {
         if (!isDead)
         {
-            Die();
+            //Die();
         }
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

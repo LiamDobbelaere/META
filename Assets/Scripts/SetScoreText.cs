@@ -8,6 +8,9 @@ public class SetScoreText : MonoBehaviour {
     private Text text;
     private GameObject restartButton;
 
+    private int lastMultiplier;
+    private string multiplierColor;
+
     private string[] multiplierColors = { "white", "yellow", "orange", "red", "green", "aqua" };
 
 	// Use this for initialization
@@ -21,14 +24,13 @@ public class SetScoreText : MonoBehaviour {
 	void Update () {
         restartButton.SetActive(globalState.ship.isDead);
 
-        string multiplierColor = "aqua";
-
-        if (globalState.scoreMultiplier <= multiplierColors.Length)
+        if (lastMultiplier != globalState.scoreMultiplier)
         {
-            multiplierColor = multiplierColors[globalState.scoreMultiplier - 1];
+            multiplierColor = ColorUtility.ToHtmlStringRGB(globalState.getMainColor());
+            lastMultiplier = globalState.scoreMultiplier;
         }
-
-        text.text = string.Format(" Score: {0}\n Multiplier: <color={1}>x{2}</color>", 
+        
+        text.text = string.Format(" Score: {0}\n Section: <color=#{1}>{2}</color>", 
             (int) globalState.score, 
             multiplierColor,
             globalState.scoreMultiplier.ToString());

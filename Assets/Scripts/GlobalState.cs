@@ -26,7 +26,9 @@ public class GlobalState : MonoBehaviour
     private float newAcceleration;
 
     private bool hasCompletedAll;
-    private float scorePerSecond = 10f;    
+    private float scorePerSecond = 10f;
+
+    public int activeTubes;
 
     // Use this for initialization
     void Start()
@@ -40,7 +42,7 @@ public class GlobalState : MonoBehaviour
     {
         ship.acceleration = Mathf.Lerp(ship.acceleration, newAcceleration, 0.002f);
 
-        if (!ship.isDead) score += (scorePerSecond * scoreMultiplier) * Time.deltaTime;
+        if (!ship.isDead) score += scorePerSecond * Time.deltaTime;
     }
 
     public Color getMainColor()
@@ -72,7 +74,6 @@ public class GlobalState : MonoBehaviour
             }
         }
 
-        scoreMultiplier++;
         maxBendCount = maxBendCounts[currentPaletteColor];
         maxStraightCount = maxStraightCounts[currentPaletteColor];
 

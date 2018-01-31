@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64530608522779692}
   - component: {fileID: 114302040671141216}
   m_Layer: 0
-  m_Name: StraightTube
+  m_Name: StraightTubeNoGrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 4621588374816280}
   - component: {fileID: 33415921161107568}
   - component: {fileID: 23007607314438970}
-  - component: {fileID: 114140676089293922}
   m_Layer: 0
   m_Name: arrow
   m_TagString: Untagged
@@ -61,7 +60,7 @@ GameObject:
   - component: {fileID: 64062446703902652}
   - component: {fileID: 114738909514358868}
   m_Layer: 0
-  m_Name: StraightTube
+  m_Name: StraightTubeNoGrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,9 +76,8 @@ GameObject:
   - component: {fileID: 4013990404832890}
   - component: {fileID: 33920187285835874}
   - component: {fileID: 23940466655169772}
-  - component: {fileID: 114891346236298654}
   m_Layer: 0
-  m_Name: arrow (1)
+  m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +110,7 @@ GameObject:
   - component: {fileID: 23900360697156732}
   - component: {fileID: 64076492964629432}
   - component: {fileID: 114458767983786830}
+  - component: {fileID: 114972171703042998}
   - component: {fileID: 64308315059061776}
   m_Layer: 0
   m_Name: SplitTubePermutation
@@ -194,7 +193,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1984757624545678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.300191, y: -1.8788772, z: -1.0133398}
+  m_LocalPosition: {x: 79.50728, y: 400.0101, z: -119.50921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4291171638036520}
@@ -470,17 +469,6 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 0efb9a222d00071458ef30d080f3f747, type: 3}
---- !u!114 &114140676089293922
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1451021421299222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6e496e11ad0c84eaa2a32450e4cc9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114302040671141216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -516,14 +504,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4749647490041636, guid: bc8165952a6b9364dabc38fb32f311fb, type: 2}
---- !u!114 &114891346236298654
+--- !u!114 &114972171703042998
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1703523837093986}
+  m_GameObject: {fileID: 1984757624545678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6e496e11ad0c84eaa2a32450e4cc9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fc32d41e0407ab4eb8cf6eab756ed67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

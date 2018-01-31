@@ -5,6 +5,8 @@ using UnityEngine;
 public class AutoTubeBuilder : MonoBehaviour
 {
     private GlobalState globalState;
+    private bool hasBuilt = false;
+    private bool growOnContact = false;
 
     // Use this for initialization
     void Start()
@@ -15,28 +17,37 @@ public class AutoTubeBuilder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (globalState.activeTubes < 4) Continue();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-            Continue();
+        {
+            if (growOnContact)
+                hasBuilt = false;
+
+            if (gameObject.name.Contains("Split"))
+                globalState.scoreMultiplier++;
+        }
     }
 
-    void Continue()
+    public void Continue()
     {
-        if (gameObject.name.Contains("SplitTubePermutation"))
+        if (!hasBuilt)
         {
-            InstantiateAllPermutations();
+            if (gameObject.name.Contains("SplitTubePermutation"))
+            {
+                InstantiateAllPermutations();
+            }
+            else
+            {
+                PickPermutation();
+            }
+
+            DeletePermutations();
+            hasBuilt = true;
         }
-        else
-        {
-            PickPermutation();
-        }
-        
-        DeletePermutations();
-        Destroy(this);
     }
 
     void InstantiateAllPermutations()
@@ -47,6 +58,8 @@ public class AutoTubeBuilder : MonoBehaviour
         Transform permutationTarget = permutation.GetComponent<Permutation>().target;
 
         var aInst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
+        aInst.GetComponent<AutoTubeBuilder>().hasBuilt = true;
+        aInst.GetComponent<AutoTubeBuilder>().growOnContact = true;
         var instRenderer = aInst.GetComponent<Renderer>();
         var doc = aInst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = this.gameObject;
@@ -60,6 +73,8 @@ public class AutoTubeBuilder : MonoBehaviour
         permutationTarget = permutation.GetComponent<Permutation>().target;
 
         var bInst = Instantiate(permutationTarget, permutation.position, permutation.rotation);
+        bInst.GetComponent<AutoTubeBuilder>().hasBuilt = true;
+        bInst.GetComponent<AutoTubeBuilder>().growOnContact = true;
         instRenderer = bInst.GetComponent<Renderer>();
         doc = bInst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = this.gameObject;
@@ -73,11 +88,14 @@ public class AutoTubeBuilder : MonoBehaviour
 
         doc = bInst.gameObject.AddComponent<DestroyOnContact>();
         doc.target = aInst.gameObject;
+
+        globalState.activeTubes += 2;
     }
 
     void PickPermutation()
     {
         var permutations = transform.Find("Permutations");
+
         //var chosenPermutation = Random.Range(0, permutations.childCount);
 
         //Apply the permutation here
@@ -95,6 +113,8 @@ public class AutoTubeBuilder : MonoBehaviour
         instRenderer.materials[0].SetColor("_Color", globalState.getMainColor());
         instRenderer.materials[1].SetColor("_EmissionColor", globalState.getTubeColor());
         instRenderer.materials[2].SetColor("_Color", globalState.getAccentColor());
+
+        globalState.activeTubes++;
 
         var obstacles = inst.Find("Obstacles");
 
@@ -115,19 +135,21 @@ public class AutoTubeBuilder : MonoBehaviour
 
             var obgo = obstacles.GetChild(chosenObstacle).gameObject;
             obgo.SetActive(true);
-            obgo.GetComponent<BlinkObstacle>().targetColor = laserColor;
-            obgo.GetComponent<Renderer>().materials[0].SetColor("_Color", Color.black);
+
+            laserColor.a = 0.25f;
+            
+            //obgo.GetComponent<BlinkObstacle>().targetColor = laserColor;
+            obgo.GetComponent<Renderer>().materials[0].SetColor("_Color", laserColor);
 
             if (obgo.transform.childCount > 0)
             {
                 foreach (Transform t in obgo.transform) {
-                    t.GetComponent<BlinkObstacle>().targetColor = laserColor;
-                    t.GetComponent<Renderer>().materials[0].SetColor("_Color", Color.black);
+                    //t.GetComponent<BlinkObstacle>().targetColor = laserColor;
+                    t.GetComponent<Renderer>().materials[0].SetColor("_Color", laserColor);
                 }
             }
 
         }
-
     }
 
     void DeletePermutations()
