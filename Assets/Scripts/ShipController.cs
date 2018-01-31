@@ -18,7 +18,7 @@ public class ShipController : MonoBehaviour {
 
     private float aliveTimer;
 
-    private bool isDead;
+    public bool isDead;
 
     private float zFormation;
 

@@ -7,25 +7,40 @@ public class GlobalState : MonoBehaviour
     public Color[] paletteColorsMain;
     public Color[] paletteColorsAccent;
     public Color[] paletteColorsTube;
+    public int[] maxStraightCounts;
+    public int[] maxBendCounts;
+
+    public ShipController ship;
+
+    public float score;
+    public int scoreMultiplier = 1;
 
     private int currentPaletteColor;
 
     private int bendCount;
-    private int maxBendCount = 3;
-
+    private int maxStraightCount = 3;
+    
     private int splitCount;
-    private int maxSplitCount = 2;
+    private int maxBendCount = 2;
+
+    private float newAcceleration;
+
+    private bool hasCompletedAll;
+    private float scorePerSecond = 10f;    
 
     // Use this for initialization
     void Start()
     {
-
+        ship = GameObject.Find("Ship").GetComponent<ShipController>();
+        newAcceleration = ship.acceleration;
     }
 
     // Update is called once per frame
     void Update()
     {
+        ship.acceleration = Mathf.Lerp(ship.acceleration, newAcceleration, 0.002f);
 
+        if (!ship.isDead) score += (scorePerSecond * scoreMultiplier) * Time.deltaTime;
     }
 
     public Color getMainColor()
@@ -48,6 +63,23 @@ public class GlobalState : MonoBehaviour
         if (++currentPaletteColor >= paletteColorsMain.Length)
         {
             currentPaletteColor = 0;
+
+            if (!hasCompletedAll)
+            {
+                newAcceleration += 1f;
+                ship.maxBanking += 0.4f;
+                hasCompletedAll = true;
+            }
+        }
+
+        scoreMultiplier++;
+        maxBendCount = maxBendCounts[currentPaletteColor];
+        maxStraightCount = maxStraightCounts[currentPaletteColor];
+
+        if (ship.acceleration < 3.9f)
+        {
+            newAcceleration += 1f;
+            ship.maxBanking += 0.4f;
         }
     }
 
@@ -56,12 +88,12 @@ public class GlobalState : MonoBehaviour
         bool bendsOnly = false;
         bool allowSplit = false;
 
-        if (++bendCount > maxBendCount)
+        if (++bendCount > maxStraightCount)
         {
             bendsOnly = true;
             bendCount = 0;
 
-            if (++splitCount > maxSplitCount)
+            if (++splitCount > maxBendCount)
             {
                 allowSplit = true;
             }
@@ -78,10 +110,13 @@ public class GlobalState : MonoBehaviour
 
                 if (t.name.Equals("SplitTube") && allowSplit)
                     options.Add(t);
+
+                //if (t.name.Equals("UpTube") || t.name.Equals("DownTube"))
+                //    options.Add(t);
             }
             else
             {
-                if (!t.name.Equals("BendTube") && !t.name.Equals("SplitTube"))
+                if (t.name.Equals("StraightTube"))
                     options.Add(t);
             }
         }

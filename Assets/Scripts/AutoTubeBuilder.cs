@@ -109,7 +109,23 @@ public class AutoTubeBuilder : MonoBehaviour
             int obstacleCount = obstacles.childCount;
             int chosenObstacle = Random.Range(0, obstacleCount);
 
-            obstacles.GetChild(chosenObstacle).gameObject.SetActive(true);
+            Color laserColor = globalState.getMainColor();
+
+            if (laserColor.r == 0 && laserColor.g == 0 && laserColor.b == 0) laserColor = Color.red;
+
+            var obgo = obstacles.GetChild(chosenObstacle).gameObject;
+            obgo.SetActive(true);
+            obgo.GetComponent<BlinkObstacle>().targetColor = laserColor;
+            obgo.GetComponent<Renderer>().materials[0].SetColor("_Color", Color.black);
+
+            if (obgo.transform.childCount > 0)
+            {
+                foreach (Transform t in obgo.transform) {
+                    t.GetComponent<BlinkObstacle>().targetColor = laserColor;
+                    t.GetComponent<Renderer>().materials[0].SetColor("_Color", Color.black);
+                }
+            }
+
         }
 
     }
