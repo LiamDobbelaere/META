@@ -1,7 +1,6 @@
 22:07 - [BBG] Jerkakame: cool game
 22:07 - [BBG] Jerkakame: BUT
 22:07 - [BBG] Jerkakame: 2 things
-22:07 - Digaly:  https://steamcommunity-a.akamaihd.net/economy/emoticon/steamfacepalm 
 22:08 - [BBG] Jerkakame: ¨bad controls
 22:08 - [BBG] Jerkakame: just the X
 22:08 - Digaly: HAHA yea
@@ -9,8 +8,6 @@
 22:08 - Digaly: what would you do to fix it?
 22:08 - [BBG] Jerkakame: ctrl
 22:08 - [BBG] Jerkakame: :3
-22:08 - Digaly: wooooooooooooooooow
-22:08 - Digaly: ok
 22:08 - [BBG] Jerkakame: because you have to move your wasd fingers to X
 22:08 - Digaly: wtf
 22:08 - Digaly: I have my thumb on X
@@ -54,11 +51,10 @@
 22:12 - [BBG] Jerkakame: :3
 22:12 - Digaly: Yes!
 22:12 - Digaly: Good fucking ideas
-22:12 - Digaly: gonna copy pasteµ
+22:12 - Digaly: gonna copy paste
 
 - Bonus score objects
 - Shield objects
-- Multiplier has no point?
-- Online leaderboard
 ^ Maybe use at splits
+- Online leaderboard
 

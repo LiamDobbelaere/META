@@ -8,16 +8,34 @@ public class AutoTubeBuilder : MonoBehaviour
     private bool hasBuilt = false;
     private bool growOnContact = false;
 
+    private bool openDoor;
+    private Transform door;
+
     // Use this for initialization
     void Start()
     {
         globalState = GameObject.Find("GlobalState").GetComponent<GlobalState>();
+        door = transform.Find("door");
     }
 
     // Update is called once per frame
     void Update()
     {
         if (globalState.activeTubes < 4) Continue();
+        if (door != null)
+        {
+            if (growOnContact)
+            {
+                door.gameObject.SetActive(true);
+                door.GetComponent<Renderer>().materials[0].SetColor("_Color", this.GetComponent<Renderer>().materials[2].GetColor("_Color"));
+            }
+            else door.gameObject.SetActive(false);
+
+            if (openDoor)
+            {
+                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + 0.3f, door.transform.position.z);
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -25,8 +43,11 @@ public class AutoTubeBuilder : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (growOnContact)
+            {
+                openDoor = true;
                 hasBuilt = false;
-
+            }
+            
             if (gameObject.name.Contains("Split"))
                 globalState.scoreMultiplier++;
         }

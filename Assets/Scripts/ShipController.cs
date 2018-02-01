@@ -22,6 +22,16 @@ public class ShipController : MonoBehaviour {
 
     private float zFormation;
 
+    public bool hasSlowmotion;
+
+    private float slowMotionTime;
+
+    public AudioClip powerupPickup;
+    public AudioClip freezeTimeStart;
+    public AudioClip freezeTimeStop;
+
+    private bool isInSlowmotion = false;
+
 	// Use this for initialization
 	void Start () {
         mesh = transform.Find("MeshRepresentation");
@@ -39,7 +49,7 @@ public class ShipController : MonoBehaviour {
     {
         if (!isDead)
         {
-            //Die();
+            Die();
         }
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -48,10 +58,34 @@ public class ShipController : MonoBehaviour {
     {
         rigidbody.useGravity = true;
         rigidbody.constraints = RigidbodyConstraints.None;
-        transform.Find("Main Camera").parent = null;
+
+        var mc = transform.Find("Main Camera");
+        if (mc != null) mc.parent = null;
+        
+        var map = transform.Find("Map");
+        if (map != null) map.parent = null;
+
         transform.gameObject.AddComponent<MeshCollider>();
         transform.GetComponent<MeshCollider>().convex = true;
         isDead = true;
+    }
+
+    public void PlayPowerupPickup()
+    {
+        GetComponent<AudioSource>().clip = powerupPickup;
+        GetComponent<AudioSource>().Play();
+    }
+
+    void PlayTimefreezeStart()
+    {
+        GetComponent<AudioSource>().clip = freezeTimeStart;
+        GetComponent<AudioSource>().Play();
+    }
+
+    void PlayTimefreezeStop()
+    {
+        GetComponent<AudioSource>().clip = freezeTimeStop;
+        GetComponent<AudioSource>().Play();
     }
 
 	// Update is called once per frame
@@ -68,6 +102,34 @@ public class ShipController : MonoBehaviour {
             transform.position += (transform.forward * Time.deltaTime * acceleration)
                 + (transform.right * smoothHorizontal * speedMultiplier)
                 + (transform.up * smoothVertical * speedMultiplier);
+
+            if (Input.GetButtonDown("Slowmotion") && hasSlowmotion)
+            {
+                hasSlowmotion = false;
+                slowMotionTime = 3f;
+            }
+
+            if (slowMotionTime > 0f)
+            {
+                if (!isInSlowmotion)
+                {
+                    PlayTimefreezeStart();
+                    isInSlowmotion = true;
+                }
+
+                Time.timeScale = 0.5f;
+                slowMotionTime -= Time.deltaTime;
+            }
+            else
+            {
+                if (isInSlowmotion)
+                {
+                    PlayTimefreezeStop();
+                    isInSlowmotion = false;
+                }
+
+                Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, 0.01f);
+            }
 
             if (Input.GetButton("Bank"))
             {
